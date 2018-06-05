@@ -9,8 +9,9 @@ class TestCase{
     
     private:
     string s; 
-    int num;  //number of test
-    
+    int num;  //number of fail tests
+    static int counter; //number of all test
+    ostream os;
     
     public:
     TestCase(string s, ostream& cerr);
@@ -24,24 +25,28 @@ class TestCase{
 
     TestCase(string s1, &ostream cerr){//constructor
         s=s1;
-        
+        ostream os = cerr;
     }
-
 
 
     template <typename T> TestCase& check_equal(T& a, T& b){
         if(a!=b){
            cerr << to_string( s +": Failure in test #1:"+ a + "should equal" + b + "!"); 
         }
-
         return *this;
 
     }
     
     template <typename T> TestCase& check_different(T& a, T& b){
         if(a==b){
-           cerr << to_string( s +": Failure in test #2:"+ a + "should be different" + b + "!"); 
+           cerr << to_string( s +": Failure in test #" + num + ":"+ a + "should be different" + b + "!"); 
         }
-
         return *this;
+    }
+
+    template <typename T> TestCase& check_output(T& a, string s){
+      if(a!=b){
+           cerr << to_string( s +": Failure in test #" + num + ":"+ a + "string value should be" + b + "!"); 
+        }
+        return *this;    
     }
