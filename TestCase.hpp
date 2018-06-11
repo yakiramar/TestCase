@@ -51,7 +51,7 @@ class TestCase{
         return *this;    
     }
     
-    template <typename T, typename function> TestCase& check_function(function f ,T a, const int b){
+    template <typename T,typename T2, typename function> TestCase& check_function(function f ,T a, T2 b){
         counter++;
         int ans = f(a);
         if(ans != b){
