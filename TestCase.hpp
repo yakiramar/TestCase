@@ -34,7 +34,8 @@ class TestCase{
     template <typename T> TestCase& check_different(T a, T b){
         counter++;
         if(a == b){
-            cerr << s << ": Failure in test #" <<  counter << ": " << a << " should dequal " << b << "!" << endl;          num_failure++;
+            cerr << s << ": Failure in test #" <<  counter << ": " << a << " should not equal " << b << "!" << endl;
+            num_failure++;
         }
         return *this;
     }
