@@ -24,7 +24,8 @@ class TestCase{
 
     template <typename T> TestCase& check_equal(T a, T b){
         counter++;
-        if(a != b){
+        if(a == b){}
+        else{
           cerr << s << ": Failure in test #" <<  counter << ": " << a << " should equal " << b << "!" << endl;
           num_failure++;
         }
