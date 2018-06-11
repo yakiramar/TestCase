@@ -1,5 +1,5 @@
 #pragma once
-
+#include<string>
 #include <sstream>
 #include <iostream>
 using namespace std;
@@ -14,7 +14,7 @@ class TestCase{
     string s; 
     int num_failure;  //number of fail tests
     int counter ; //number of all test
-    ostream os;
+    ostream cerr;
     
     public:
 
@@ -22,40 +22,39 @@ class TestCase{
     void print(); //  מדפיסה את תוצאות הבדיקה - כמה בדיקות עברו ונכשלו.
 
 
-    template <typename T> TestCase& check_equal(T& a, T& b){
+    template <typename T> TestCase& check_equal(T a, T b){
         counter++;
         if(a != b){
-          cerr << to_string( s +": Failure in test #" + counter ":"+ a + "should equal" + b + "!"); 
+          cerr << s << ": Failure in test #" <<  counter << ": " << a << " should equal " << b << "!" << endl;
           num_failure++;
         }
         return *this;
     }
     
-    template <typename T> TestCase& check_different(T& a, T& b){
+    template <typename T> TestCase& check_different(T a, T b){
         counter++;
         if(a == b){
-          cerr << to_string( s +": Failure in test #" + counter + ": string value should be"+ a + "but is" + b); //need to change!!!!
-          num_failure++;
+            cerr << s << ": Failure in test #" <<  counter << ": " << a << " should not be equal " << b << "!" << endl;          num_failure++;
         }
         return *this;
     }
 
-    template <typename T> TestCase& check_output(T& a, string s){
+    template <typename T> TestCase& check_output(T a, string s1){
         counter++;
-        ostream new_os;
+        ostringstream new_os;
         new_os << a;
-        if(new_os.str(); != s){
-          cerr << to_string( s +": Failure in test #" + counter + ": string value should be"+ a + "but is" + b); 
+        if(new_os.str() != s1){
+               cerr << s << ": Failure in test #" << counter << ": string value should be " << a << " but is " << new_os.str() << "!" << endl;
           num_failure++;
         }
         return *this;    
     }
     
-    template <typename T, typename function> TestCase& check_function(function f ,T& a, const int b){
+    template <typename T, typename function> TestCase& check_function(function f ,T a, const int b){
         counter++;
         int ans = f(a);
         if(ans != b){
-            cerr << to_string(s +": Failure in test #" + counter + ": Function should return" + b + "but returned" + ans + "!");
+           cerr << s << ": Failure in test #" << counter << ": Function should return " << b << " but returned " << ans << "!" << endl;
             num_failure++;
         }
         return *this;
