@@ -1,52 +1,56 @@
 #include <iostream>
 #include <ostream>
-#include <assert.h>     /* assert */
+#include <string>
+//#include <assert.h>     /* assert */
 using namespace std;
 
 
-template<typename T>
 class TestCase{
-    
     private:
     string s; 
-    int num;  //number of fail tests
+    int num_failure;  //number of fail tests
     static int counter; //number of all test
     ostream os;
     
     public:
     TestCase(string s, ostream& cerr);
-    template <typename T> TestCase& check_equal(T& a, T& b); // בודקת אם שני הארגומנטים שלה שווים, אם לא - מדפיסה הודעת שגיאה
-    template <typename T> TestCase& check_different(T& a, T& b); // בודקת אם שני הארגומנטים שונים, כנ"ל
-    template <typename T> TestCase& check_output(T& a, string s); // בודקת את אופרטור הפלט של הארגומנט שלה, משווה את התוצאה למחרוזת נתונה
-    template <typename T> TestCase& check_function(T& a, T& b); //  בודקת פונקציה כללית כלשהי עם ארגומנט אחד.
-    template <typename T> void print(); //  מדפיסה את תוצאות הבדיקה - כמה בדיקות עברו ונכשלו.
-    
+    void print(); // מדפיסה את תוצאות הבדיקה - כמה בדיקות עברו ונכשלו
 };
 
-    TestCase(string s1, &ostream cerr){//constructor
-        s=s1;
-        ostream os = cerr;
-    }
-
-
-    template <typename T> TestCase& check_equal(T& a, T& b){
-        if(a!=b){
-           cerr << to_string( s +": Failure in test #1:"+ a + "should equal" + b + "!"); 
+    template <typename T> TestCase& check_equal(T& a, T& b){ //בודקת אם שני הארגומנטים שלה שווים, אם לא - מדפיסה הודעת שגיאה
+        counter++;
+        if(a != b){
+          cerr << to_string( s +": Failure in test #" + counter ":"+ a + "should equal" + b + "!"); 
+          num_failure++;
         }
         return *this;
-
     }
     
-    template <typename T> TestCase& check_different(T& a, T& b){
-        if(a==b){
-           cerr << to_string( s +": Failure in test #" + num + ":"+ a + "should be different" + b + "!"); 
+    template <typename T> TestCase& check_different(T& a, T& b){ //בודקת אם שני הארגומנטים שונים, כנ"ל
+        counter++;
+        if(a == b){
+          cerr << to_string( s +": Failure in test #" + counter + ": string value should be"+ a + "but is" + b); //need to change!!!!
+          num_failure++;
         }
         return *this;
     }
 
-    template <typename T> TestCase& check_output(T& a, string s){
-      if(a!=b){
-           cerr << to_string( s +": Failure in test #" + num + ":"+ a + "string value should be" + b + "!"); 
+    template <typename T> TestCase& check_output(T& a, string s){ //בודקת את אופרטור הפלט של הארגומנט שלה, משווה את התוצאה למחרוזת נתונה
+        counter++;
+        if(){
+          cerr << to_string( s +": Failure in test #" + counter + ": string value should be"+ a + "but is" + b); 
+          num_failure++;
         }
         return *this;    
     }
+    
+    template <typename T, typename function> TestCase& check_function(function f ,T& a, const int b){ //בודקת פונקציה כללית כלשהי עם ארגומנט אחד
+        counter++;
+        int ans = f(a);
+        if(ans != b){
+            cerr << to_string(s +": Failure in test #" + counter + ": Function should return" + b + "but returned" + ans + "!");
+            num_failure++;
+        }
+        return *this;
+    }
+    
