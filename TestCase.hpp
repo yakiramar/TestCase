@@ -46,7 +46,7 @@ class TestCase{
         ostringstream new_os;
         new_os << a;
         if(new_os.str() != s1){
-               cerr << s << ": Failure in test #" << counter << ": string value should be " << a << " but is " << new_os.str() << endl;
+               cerr << s << ": Failure in test #" << counter << ": string value should be " << s1 << " but is " << new_os.str() << endl;
           num_failure++;
         }
         return *this;    
