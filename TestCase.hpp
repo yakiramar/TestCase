@@ -1,23 +1,28 @@
+#pragma once
+
+#include <sstream>
 #include <iostream>
-#include <ostream>
-#include <string>
+using namespace std;
+
 //#include <assert.h>     /* assert */
 using namespace std;
 
 
+//template<typename T>
 class TestCase{
     private:
     string s; 
     int num_failure;  //number of fail tests
-    static int counter; //number of all test
+    int counter ; //number of all test
     ostream os;
     
     public:
-    TestCase(string s, ostream& cerr);
-    void print(); // מדפיסה את תוצאות הבדיקה - כמה בדיקות עברו ונכשלו
-};
 
-    template <typename T> TestCase& check_equal(T& a, T& b){ //בודקת אם שני הארגומנטים שלה שווים, אם לא - מדפיסה הודעת שגיאה
+    TestCase(string s, ostream& cerr);
+    void print(); //  מדפיסה את תוצאות הבדיקה - כמה בדיקות עברו ונכשלו.
+
+
+    template <typename T> TestCase& check_equal(T& a, T& b){
         counter++;
         if(a != b){
           cerr << to_string( s +": Failure in test #" + counter ":"+ a + "should equal" + b + "!"); 
@@ -26,7 +31,7 @@ class TestCase{
         return *this;
     }
     
-    template <typename T> TestCase& check_different(T& a, T& b){ //בודקת אם שני הארגומנטים שונים, כנ"ל
+    template <typename T> TestCase& check_different(T& a, T& b){
         counter++;
         if(a == b){
           cerr << to_string( s +": Failure in test #" + counter + ": string value should be"+ a + "but is" + b); //need to change!!!!
@@ -35,16 +40,18 @@ class TestCase{
         return *this;
     }
 
-    template <typename T> TestCase& check_output(T& a, string s){ //בודקת את אופרטור הפלט של הארגומנט שלה, משווה את התוצאה למחרוזת נתונה
+    template <typename T> TestCase& check_output(T& a, string s){
         counter++;
-        if(){
+        ostream new_os;
+        new_os << a;
+        if(new_os.str(); != s){
           cerr << to_string( s +": Failure in test #" + counter + ": string value should be"+ a + "but is" + b); 
           num_failure++;
         }
         return *this;    
     }
     
-    template <typename T, typename function> TestCase& check_function(function f ,T& a, const int b){ //בודקת פונקציה כללית כלשהי עם ארגומנט אחד
+    template <typename T, typename function> TestCase& check_function(function f ,T& a, const int b){
         counter++;
         int ans = f(a);
         if(ans != b){
@@ -53,4 +60,4 @@ class TestCase{
         }
         return *this;
     }
-    
+};
