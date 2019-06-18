@@ -19,7 +19,7 @@ class TestCase{
     public:
 
     TestCase(string s, ostream& cerr);
-    void print(); //  מדפיסה את תוצאות הבדיקה - כמה בדיקות עברו ונכשלו.
+    void print(); //  Prints the test results - several tests have passed and failed.
 
 
     template <typename T> TestCase& check_equal(T a, T b){
